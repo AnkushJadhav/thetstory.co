@@ -25,16 +25,15 @@ app.use(function(req, res, next) {
   getAllProducts(function(err, data) {
     var menuHTML = ``;
     if (data.length > 0) {
-      menuHTML = `<ul>`;
+      menuHTML += `<ul>`;
       menuHTML += `<li><strong>` + data[0].Category + `</strong></li>`;
-      if (data.length == 1)
-        menuHTMl += `</ul>`;
-      else {
-        for(var itrData = 0; itrData < data.length; itrData ++) {
-          menuHTML += `<li><a href="/product/` + data[itrData].SKU + `">` + data[itrData].Description + `</a></li>`;
-          if (itrData == data.length - 1 || data[itrData].Category != data[itrData + 1].Category) {
-            menuHTML += `</ul>`;
-          }
+      for(var itrData = 0; itrData < data.length; itrData ++) {
+        menuHTML += `<li><a href="/product/` + data[itrData].SKU + `">` + data[itrData].Description + `</a></li>`;
+        if (itrData < data.length - 1 && data[itrData].Category != data[itrData + 1].Category) {
+          menuHTML += `<li><strong>` + data[itrData+1].Category + `</strong></li>`;
+        }
+        if (itrData == data.length - 1) {
+          menuHTML += `</ul>`;
         }
       }
     }
@@ -50,7 +49,7 @@ var getAllProducts = function(callback) {
 logger.logError('Unable to connect to the mongoDB server. Error:' + err.message);
 }else{
     var dbo = db.db(dbName);
-    dbo.collection("SKU_Master").find({$query: {IsActive : 'Y'}, $orderby: {Category:1, Description:1}}).toArray( function(err, result) {
+    dbo.collection("SKU_Master").find({IsActive : 'Y'}).sort({Category:1, Description:1}).toArray( function(err, result) {
       if (err) throw err;
       if (result) {
         callback(null, result);

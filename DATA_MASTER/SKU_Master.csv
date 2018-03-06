@@ -1,3 +1,5 @@
 #SKU,Description,Currency,Price,Category,AssetPath,IsActive# DONOT REMOVE THIS LINE!
 TS10001,Dish,INR,500,Terrarium,/assets/products/dish,Y
 TS10002,"Earthen Pot",INR,700,Terrarium,/assets/products/earthen-pot,Y
+TS10003,"Something",INR,700,Dream Catchers,/assets/products/earthen-pot,Y
+TS10004,"Earthen Pot",INR,700,Terrarium,/assets/products/earthen-pot,Y
